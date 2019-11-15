@@ -274,7 +274,7 @@ spec:
           - name: ZBX_PROXYCONFIGFREQUENCY
             value: "60"
           volumeMounts:
-          - name: zabbix-db-storage
+          - name: zabbix-snmptrap-storage
             mountPath: /var/lib/zabbix/snmptraps/
             readOnly: true
         - name: zabbix-snmptraps
@@ -285,13 +285,13 @@ spec:
             protocol: UDP
             name: snmp-trap
           volumeMounts:
-          - name: zabbix-db-storage
+          - name: zabbix-snmptrap-storage
             mountPath: /var/lib/zabbix/snmptraps/
             readOnly: false
       volumes:
-       - hostPath:
-          path: /zabbix/
-         name: zabbix-db-storage
+       - name: zabbix-snmptrap-storage
+         persistentVolumeClaim:
+          claimName: zabbix-snmptrap-data-claim
 ---
 apiVersion: extensions/v1beta1
 kind: DaemonSet
@@ -364,6 +364,19 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: sugi-mapr-mdf-dynamic-sc
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: zabbix-snmptrap-data-claim
+  namespace: zabbix
+spec:
+  accessModes:
+    - ReadOnlyMany
   resources:
     requests:
       storage: 10Gi
