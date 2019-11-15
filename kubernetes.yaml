@@ -20,7 +20,7 @@ spec:
   selector:
     name: zabbix-web
   externalIPs:
-  - <Specify external IP here>
+  - 10.1.17.99
 ---
 apiVersion: v1
 kind: Service
@@ -57,7 +57,7 @@ spec:
   selector:
     name: zabbix-server
   externalIPs:
-  - <Specify external IP here>
+  - 10.1.17.98
 ---
 apiVersion: v1
 kind: Service
