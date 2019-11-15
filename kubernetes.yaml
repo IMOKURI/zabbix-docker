@@ -17,9 +17,6 @@ spec:
   - port: 80
     targetPort: 80
     name: web-http
-  - port: 443
-    targetPort: 443
-    name: web-https
   selector:
     name: zabbix-web
   externalIPs:
@@ -100,8 +97,6 @@ spec:
           ports:
           - containerPort: 80
             name: web-http
-          - containerPort: 443
-            name: web-https
           resources:
            limits:
             cpu: 200m
@@ -151,14 +146,6 @@ spec:
               key: db-root-pass
           - name: MYSQL_DATABASE
             value: "zabbix"
-          volumeMounts:
-          - name: zabbix-web-ssl
-            mountPath: /etc/ssl/nginx
-            readOnly: true
-      volumes:
-       - hostPath:
-          path: /home/dotneft/zbx/zbx_env/etc/ssl/nginx/
-         name: zabbix-web-ssl
 ---
 apiVersion: v1
 kind: ReplicationController
