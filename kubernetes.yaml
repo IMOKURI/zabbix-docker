@@ -343,21 +343,6 @@ spec:
       name: cpu
       targetAverageUtilization: 70
 ---
-kind: PersistentVolume
-apiVersion: v1
-metadata:
-  name: zabbix-mysql-data
-  labels:
-    type: local
-  namespace: zabbix
-spec:
-  capacity:
-    storage: 1Gi
-  accessModes:
-    - ReadWriteOnce
-  hostPath:
-    path: "/data"
----
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
@@ -368,8 +353,8 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 1Gi
-  volumeName: zabbix-mysql-data
+      storage: 10Gi
+  storageClassName: sugi-mapr-mdf-dynamic-sc
 ---
 apiVersion: v1
 kind: List
