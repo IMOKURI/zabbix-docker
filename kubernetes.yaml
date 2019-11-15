@@ -74,8 +74,8 @@ spec:
   selector:
     name: zabbix-agent
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: ReplicaSet
 metadata:
   name: zabbix-web
   labels:
@@ -84,11 +84,16 @@ metadata:
   namespace: zabbix
 spec:
   replicas: 2
+  selector:
+    matchLabels:
+      app: zabbix
+      tier: zabbix-web
   template:
     metadata:
       labels:
         name: zabbix-web
         app: zabbix
+        tier: zabbix-web
     spec:
       containers:
         - name: zabbix-web
@@ -147,8 +152,8 @@ spec:
           - name: MYSQL_DATABASE
             value: "zabbix"
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: ReplicaSet
 metadata:
   name: mysql-server
   labels:
@@ -157,6 +162,10 @@ metadata:
   namespace: zabbix
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix
+      tier: mysql-server
   template:
     metadata:
       labels:
@@ -197,22 +206,26 @@ spec:
              name: zabbix-mysql-data
              readOnly: false
 ---
-apiVersion: v1
-kind: ReplicationController
+apiVersion: apps/v1
+kind: ReplicaSet
 metadata:
   name: zabbix-server
   labels:
     app: zabbix
     tier: server
-    environment: dev
   namespace: zabbix
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: zabbix
+      tier: server
   template:
     metadata:
       labels:
         name: zabbix-server
         app: zabbix
+        tier: server
     spec:
       containers:
         - name: zabbix-server
