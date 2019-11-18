@@ -13,6 +13,7 @@ metadata:
     app: zabbix
   namespace: zabbix
 spec:
+  type: NodePort
   ports:
     - port: 80
       targetPort: 80
@@ -46,6 +47,7 @@ metadata:
     app: zabbix
   namespace: zabbix
 spec:
+  type: NodePort
   ports:
     - port: 10051
       targetPort: 10051
