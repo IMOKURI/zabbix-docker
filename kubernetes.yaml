@@ -173,7 +173,7 @@ spec:
             claimName: zabbix-pgsql-data-claim
       containers:
         - name: zabbix-db
-          image: postgres:latest
+          image: timescale/timescaledb:latest-pg11
           ports:
             - containerPort: 5432
               name: pgsql
@@ -242,6 +242,8 @@ spec:
                 secretKeyRef:
                   name: db-secret
                   key: db-zbx-pass
+            - name: ENABLE_TIMESCALEDB
+              value: "true"
             - name: ZBX_ENABLE_SNMP_TRAPS
               value: "true"
           volumeMounts:
